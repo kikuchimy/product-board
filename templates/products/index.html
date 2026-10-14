@@ -1,0 +1,28 @@
+{% extends "base.html" %}
+
+{% block content %}
+<h1>商品一覧</h1>
+
+{% if products %}
+<table>
+    <thead>
+        <tr>
+            <th>商品名</th>
+            <th>価格</th>
+            <th>生産者</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for product in products %}
+        <tr>
+            <td>{{ product.name }}</td>
+            <td>{{ "{:,}".format(product.price) }}円</td>
+            <td>{{ product.producer_name }}</td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+{% else %}
+    <p>まだ商品がありません。</p>
+{% endif %}
+{% endblock %}
