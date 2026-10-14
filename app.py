@@ -1,6 +1,6 @@
 from datetime import datetime
 
-from flask import Flask, render_template
+from flask import Flask, flash, redirect, render_template, request, url_for
 from flask_sqlalchemy import SQLAlchemy
 from sqlalchemy import String, Text
 from sqlalchemy.orm import DeclarativeBase, Mapped, mapped_column
@@ -22,6 +22,29 @@ class Product(db.Model):
     created_at: Mapped[datetime] = mapped_column(default=datetime.now)
 
 
+def validate_product(form):
+    """フォームの値をチェックして、エラーメッセージのリストを返す"""
+    errors = []
+    name = form.get("name", "").strip()
+    price = form.get("price", "").strip()
+    producer_name = form.get("producer_name", "").strip()
+
+    if name == "":
+        errors.append("商品名を入力してください")
+    elif len(name) > 50:
+        errors.append("商品名は50文字以内で入力してください")
+
+    if not price.isdecimal():
+        errors.append("価格は0以上の整数で入力してください")
+    elif int(price) > 100000:
+        errors.append("価格は100,000円以下で入力してください")
+
+    if producer_name == "":
+        errors.append("生産者名を入力してください")
+
+    return errors
+
+
 def create_app(test_config=None):
     app = Flask(__name__)
     app.config["SECRET_KEY"] = "dev"
@@ -39,5 +62,32 @@ def create_app(test_config=None):
             db.select(Product).order_by(Product.created_at.desc())
         ).all()
         return render_template("products/index.html", products=products)
+
+    @app.route("/products/new", methods=["GET", "POST"])
+    def create():
+        if request.method == "POST":
+            errors = validate_product(request.form)
+            if errors:
+                return render_template(
+                    "products/form.html", errors=errors, form=request.form, product=None
+                ), 422
+
+            product = Product(
+                name=request.form["name"].strip(),
+                price=int(request.form["price"]),
+                producer_name=request.form["producer_name"].strip(),
+                description=request.form.get("description", "").strip(),
+            )
+            db.session.add(product)
+            db.session.commit()
+            flash("商品を登録しました")
+            return redirect(url_for("index"))
+
+        return render_template("products/form.html", errors=[], form={}, product=None)
+
+    @app.route("/products/<int:product_id>")
+    def show(product_id):
+        product = db.get_or_404(Product, product_id)
+        return render_template("products/show.html", product=product)
 
     return app

@@ -1,0 +1,13 @@
+{% extends "base.html" %}
+
+{% block title %}{{ product.name }} | 八幡平 産直掲示板{% endblock %}
+
+{% block content %}
+<article>
+    <header><h1>{{ product.name }}</h1></header>
+    <p>価格: {{ "{:,}".format(product.price) }}円</p>
+    <p>生産者: {{ product.producer_name }}</p>
+    <p>{{ product.description }}</p>
+</article>
+<a href="{{ url_for('index') }}">一覧に戻る</a>
+{% endblock %}

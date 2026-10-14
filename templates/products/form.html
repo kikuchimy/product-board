@@ -1,0 +1,35 @@
+{% extends "base.html" %}
+
+{% block content %}
+<h1>{{ "商品を編集" if product else "商品を登録" }}</h1>
+
+{% if errors %}
+<article>
+    <ul>
+        {% for error in errors %}
+        <li>{{ error }}</li>
+        {% endfor %}
+    </ul>
+</article>
+{% endif %}
+
+<form method="post">
+    <label>
+        商品名
+        <input type="text" name="name" value="{{ form.get('name', '') }}" required>
+    </label>
+    <label>
+        価格（円）
+        <input type="number" name="price" min="0" value="{{ form.get('price', '') }}" required>
+    </label>
+    <label>
+        生産者名
+        <input type="text" name="producer_name" value="{{ form.get('producer_name', '') }}" required>
+    </label>
+    <label>
+        説明
+        <textarea name="description" rows="4">{{ form.get('description', '') }}</textarea>
+    </label>
+    <button type="submit">{{ "更新する" if product else "登録する" }}</button>
+</form>
+{% endblock %}
