@@ -8,6 +8,14 @@
     <p>価格: {{ "{:,}".format(product.price) }}円</p>
     <p>生産者: {{ product.producer_name }}</p>
     <p>{{ product.description }}</p>
+    <footer>
+        <div class="grid">
+            <a href="{{ url_for('edit', product_id=product.id) }}" role="button" style="margin-bottom: 0;">編集</a>
+            <form action="{{ url_for('delete', product_id=product.id) }}" method="post" style="margin: 0;" onsubmit="return confirm('削除しますか？')">
+                <button type="submit" class="secondary" style="margin-bottom: 0;">削除</button>
+            </form>
+        </div>
+    </footer>
 </article>
 <a href="{{ url_for('index') }}">一覧に戻る</a>
 {% endblock %}
