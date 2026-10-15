@@ -23,8 +23,16 @@
         <input type="number" name="price" min="0" value="{{ form.get('price', '') }}" required>
     </label>
     <label>
-        生産者名
-        <input type="text" name="producer_name" value="{{ form.get('producer_name', '') }}" required>
+        生産者
+        <select name="producer_id" required>
+            <option value="">選んでください</option>
+            {% for producer in producers %}
+            <option value="{{ producer.id }}" {% if form.get('producer_id', '')|string == producer.id|string %}selected{% endif %}>{{  producer.name }}</option>
+            {% endfor %}
+        </select>
+        {% if not producers %}
+        <small>生産者がまだいません。先に<a href="{{ url_for('producer_create') }}">生産者を登録</a>してください。</small>
+        {% endif %}
     </label>
     <label>
         説明

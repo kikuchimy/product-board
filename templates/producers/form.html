@@ -1,0 +1,27 @@
+{% extends "base.html" %}
+
+{% block content %}
+<h1>生産者を登録</h1>
+
+{% if errors %}
+<article>
+    <ul>
+        {% for error in errors %}
+        <li>{{ error }}</li>
+        {% endfor %}
+    </ul>
+</article>
+{% endif %}
+
+<form method="post">
+    <label>
+        生産者名
+        <input type="text" name="name" value="{{ form.get('name', '') }}" required>
+    </label>
+    <label>
+        地域（例: 西根、松尾、安代）
+        <input type="text" name="area" value="{{ form.get('area', '') }}">
+    </label>
+    <button type="submit">登録する</button>
+</form>
+{% endblock %}

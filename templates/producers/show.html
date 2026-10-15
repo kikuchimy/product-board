@@ -1,0 +1,31 @@
+{% extends "base.html" %}
+
+{% block title %}{{ producer.name }} | 八幡平 産直掲示板{% endblock %}
+
+{% block content %}
+<h1>{{ producer.name }}</h1>
+<p>地域: {{ producer.area }}</p>
+
+<h2>商品</h2>
+{% if producer.products %}
+<table>
+    <thead>
+        <tr>
+            <th>商品名</th>
+            <th>価格</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for product in producer.products %}
+        <tr>
+            <td><a href="{{ url_for('show', product_id=product.id) }}">{{ product.name }}</a></td>
+            <td>{{ "{:,}".format(product.price) }}円</td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+{% else %}
+<p>まだ商品がありません。</p>
+{% endif %}
+<a href="{{ url_for('producer_index') }}">生産者一覧に戻る</a>
+{% endblock %}

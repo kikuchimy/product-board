@@ -6,7 +6,7 @@
 <article>
     <header><h1>{{ product.name }}</h1></header>
     <p>価格: {{ "{:,}".format(product.price) }}円</p>
-    <p>生産者: {{ product.producer_name }}</p>
+    <p>生産者: <a href="{{ url_for('producer_show', producer_id=product.producer.id) }}">{{ product.producer.name }}</a></p>
     <p>{{ product.description }}</p>
     <footer>
         <div class="grid">

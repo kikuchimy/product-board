@@ -10,7 +10,10 @@
     <header class="container">
         <nav>
             <ul><li><a href="{{ url_for('index') }}"><strong>八幡平 産直掲示板</strong></a></li></ul>
-            <ul><li><a href="{{ url_for('create') }}" role="button">商品を登録</a></li></ul>
+            <ul>
+                <li><a href="{{ url_for('producer_index') }}">生産者</a></li>
+                <li><a href="{{ url_for('create') }}" role="button">商品を登録</a></li>
+            </ul>
         </nav>
     </header>
     <main class="container">
