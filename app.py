@@ -44,7 +44,6 @@ def validate_product(form):
 
     return errors
 
-
 def create_app(test_config=None):
     app = Flask(__name__)
     app.config["SECRET_KEY"] = "dev"
