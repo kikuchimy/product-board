@@ -18,7 +18,7 @@
         <tr>
             <td><a href="{{ url_for('show', product_id=product.id) }}">{{ product.name }}</a></td>
             <td>{{ "{:,}".format(product.price) }}円</td>
-            <td>{{ product.producer_name }}</td>
+            <td><a href="{{ url_for('producer_show', producer_id=product.producer.id) }}">{{ product.producer.name }}</a></td>
             <td>{{ product.created_at.strftime("%Y/%m/%d %H:%M") }}</td>
         </tr>
         {% endfor %}

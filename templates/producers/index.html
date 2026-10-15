@@ -1,0 +1,31 @@
+{% extends "base.html" %}
+
+{% block title %}生産者一覧 | 八幡平 産直掲示板{% endblock %}
+
+{% block content %}
+<h1>生産者一覧</h1>
+<p><a href="{{ url_for('producer_create') }}" role="button">生産者を登録</a></p>
+
+{% if producers %}
+<table>
+    <thead>
+        <tr>
+            <th>生産者名</th>
+            <th>地域</th>
+            <th>商品数</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for producer in producers %}
+        <tr>
+            <td><a href="{{ url_for('producer_show', producer_id=producer.id) }}">{{ producer.name }}</a></td>
+            <td>{{ producer.area }}</td>
+            <td>{{ producer.products|length }}件</td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+{% else %}
+<p>まだ生産者がいません。</p>
+{% endif %}
+{% endblock %}
